@@ -1,0 +1,65 @@
+[cron]
+ENABLED = true
+RUN_AT_START = false
+
+[cron.update_mirrors]
+SCHEDULE = @every 10m
+
+[cron.repo_health_check]
+SCHEDULE = @every 24h
+TIMEOUT = 60s
+ARGS =
+
+[cron.check_repo_stats]
+RUN_AT_START = true
+SCHEDULE = @every 24h
+
+[cron.archive_cleanup]
+ENABLED = true
+RUN_AT_START = true
+SCHEDULE = @every 24h
+OLDER_THAN = 24h
+
+[cron.sync_external_users]
+RUN_AT_START = false
+SCHEDULE = @every 24h
+UPDATE_EXISTING = true
+
+[log]
+; FIXME I belong in /var/log/gitea
+ROOT_PATH = /var/lib/gitea/log
+MODE = console
+BUFFER_LEN = 10000
+LEVEL = Trace
+
+[log.console]
+LEVEL =
+
+[log.file]
+LEVEL =
+LOG_ROTATE = true
+MAX_LINES = 1000000
+MAX_SIZE_SHIFT = 28
+DAILY_ROTATE = true
+MAX_DAYS = 7
+
+[log.conn]
+LEVEL =
+RECONNECT_ON_MSG = false
+RECONNECT = false
+PROTOCOL = tcp
+ADDR =
+
+[log.smtp]
+LEVEL =
+SUBJECT = Diagnostic message from server
+HOST =
+USER =
+PASSWD =
+RECEIVERS =
+
+[log.database]
+LEVEL =
+DRIVER =
+CONN =
+

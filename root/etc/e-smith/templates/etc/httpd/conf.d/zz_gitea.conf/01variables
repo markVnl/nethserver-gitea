@@ -1,0 +1,24 @@
+{
+    use esmith::NetworksDB;
+    use esmith::ConfigDB;
+
+    my $Confdb = esmith::ConfigDB->open;    
+    my $gitea = $Confdb->get('gitea') or die "No gitea db entry found\n";
+
+    $giteaPort = $gitea->prop('TCPPort') || "3000";
+    $giteaAccess= $gitea->prop('HttpAccess') || "private";
+
+    #---------------------------------------------------------------------
+    # Grab ValidFrom access list property of httpd-admin
+    # SSL enabled virtual hosts should only allow access from IP's in
+    # this list, as well as local networks.
+    #---------------------------------------------------------------------
+    my $ndb = esmith::NetworksDB->open_ro();
+
+    @localAccess = $ndb->local_access_spec();
+    $localAccess .= join ' ',
+	map { s:/255.255.255.255::; $_ }
+	    @localAccess;
+
+    "";
+}

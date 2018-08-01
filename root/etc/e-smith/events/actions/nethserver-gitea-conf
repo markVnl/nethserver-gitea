@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#check if database exists
+dbtest=0
+mysqlshow "gitea" > /dev/null 2>&1 && dbtest=1
+
+if [ $dbtest -eq 1 ]; then
+   # database exists
+    exit 0
+fi
+
+# create new data base
+password=`perl -e "use NethServer::Password; print NethServer::Password::store('gitea');"`
+
+/usr/bin/mysql --defaults-file=/root/.my.cnf -e \
+"CREATE DATABASE IF NOT EXISTS gitea DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+/usr/bin/mysql --defaults-file=/root/.my.cnf -e \
+"CREATE USER gitea@localhost IDENTIFIED BY '$password';" 
+/usr/bin/mysql --defaults-file=/root/.my.cnf -e \
+"GRANT ALL PRIVILEGES ON gitea .* TO gitea@localhost;"
+
+# write tables to it
+mysql --defaults-file=/root/.my.cnf gitea < /usr/share/gitea/gitea-mysql-sample.sql
+
+# Add PAM login source
+epoch=$(date +%s)
+/usr/bin/mysql --defaults-file=/root/.my.cnf -e \
+"INSERT INTO gitea . login_source (id, type, name, is_actived, is_sync_enabled, cfg, created_unix, updated_unix) 
+VALUES ('1', '4', 'Nethserver', '1', '0', '{\"ServiceName\":\"password-auth\"}', '$epoch', '$epoch');"
+
+# temp app.ini with mysql credentials 
+cat > /etc/gitea/app.ini << EOF
+APP_NAME = Gitea: Git with a cup of tea
+RUN_USER = gitea
+RUN_MODE = prod
+
+[database]
+DB_TYPE             = mysql
+HOST                = 127.0.0.1:3306
+NAME                = gitea
+USER                = gitea
+PASSWD              = $password
+SSL_MODE            = disable
+PATH                = data/gitea.db
+SQLITE_TIMEOUT      = 500
+ITERATE_BUFFER_SIZE = 50
+
+[log]
+ROOT_PATH  = /var/lib/gitea/log
+MODE       = console
+BUFFER_LEN = 10000
+LEVEL      = Trace
+EOF
+
+# add local admin
+pushd /var/lib/gitea
+su gitea -c "/bin/gitea/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /etc/gitea/app.ini"
+popd

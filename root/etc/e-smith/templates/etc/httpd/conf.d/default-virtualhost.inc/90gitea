@@ -1,0 +1,6 @@
+#
+# 90gitea
+#
+RewriteEngine On
+RewriteCond %\{HTTPS\} !=on
+RewriteRule ^/git(/.*)?$ https://%\{HTTP_HOST\}/git$1 [L,R=301]

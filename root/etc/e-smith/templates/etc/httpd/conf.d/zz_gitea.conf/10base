@@ -1,0 +1,10 @@
+#
+# zz_gitea.conf
+#
+
+<Proxy *>
+   Require { $giteaAccess eq "public" ? "ip 0.0.0.0/0.0.0.0" : "ip $localAccess" }
+</Proxy>
+
+ProxyPass /git http://localhost:{$giteaPort}
+ProxyPassReverse /git http://localhost:{$giteaPort}

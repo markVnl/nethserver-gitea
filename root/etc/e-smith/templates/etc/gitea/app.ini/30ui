@@ -1,0 +1,84 @@
+[ui]
+EXPLORE_PAGING_NUM = 20
+ISSUE_PAGING_NUM = 10
+FEED_MAX_COMMIT_NUM = 5
+THEME_COLOR_META_TAG = `#6cc644`
+MAX_DISPLAY_FILE_SIZE = 8388608
+SHOW_USER_EMAIL = true
+
+[ui.admin]
+USER_PAGING_NUM = 50
+REPO_PAGING_NUM = 50
+NOTICE_PAGING_NUM = 25
+ORG_PAGING_NUM = 50
+
+[ui.user]
+REPO_PAGING_NUM = 15
+
+[ui.meta]
+AUTHOR = Gitea - Git with a cup of tea
+DESCRIPTION = Gitea (Git with a cup of tea) is a painless self-hosted Git service written in Go
+KEYWORDS = go,git,self-hosted,gitea
+
+[markdown]
+ENABLE_HARD_LINE_BREAK = false
+CUSTOM_URL_SCHEMES =
+FILE_EXTENSIONS = .md,.markdown,.mdown,.mkd
+
+[picture]
+AVATAR_UPLOAD_PATH = data/avatars
+GRAVATAR_SOURCE = gravatar
+DISABLE_GRAVATAR = false
+ENABLE_FEDERATED_AVATAR = false
+
+[attachment]
+ENABLED = true
+PATH = data/attachments
+ALLOWED_TYPES = image/jpeg|image/png|application/zip|application/gzip
+MAX_SIZE = 4
+MAX_FILES = 5
+
+[i18n]
+LANGS = en-US,zh-CN,zh-HK,zh-TW,de-DE,fr-FR,nl-NL,lv-LV,ru-RU,ja-JP,es-ES,pt-BR,pl-PL,bg-BG,it-IT,fi-FI,tr-TR,cs-CZ,sr-SP,sv-SE,ko-KR
+NAMES = English,简体中文,繁體中文（香港）,繁體中文（台灣）,Deutsch,français,Nederlands,latviešu,русский,日本語,español,português do Brasil,polski,български,italiano,suomi,Türkçe,čeština,српски,svenska,한국어
+
+[i18n.datelang]
+en-US = en
+zh-CN = zh
+zh-HK = zh-TW
+zh-TW = zh-TW
+de-DE = de
+fr-FR = fr
+nl-NL = nl
+lv-LV = lv
+ru-RU = ru
+ja-JP = ja
+es-ES = es
+pt-BR = pt-BR
+pl-PL = pl
+bg-BG = bg
+it-IT = it
+fi-FI = fi
+tr-TR = tr
+cs-CZ = cs-CZ
+sr-SP = sr
+sv-SE = sv
+ko-KR = ko
+
+[highlight.mapping]
+
+[other]
+SHOW_FOOTER_BRANDING = false
+SHOW_FOOTER_VERSION = true
+SHOW_FOOTER_TEMPLATE_LOAD_TIME = true
+
+[time]
+FORMAT =
+
+[markup.asciidoc]
+ENABLED = false
+FILE_EXTENSIONS = .adoc,.asciidoc
+RENDER_COMMAND = "asciidoc --out-file=- -"
+IS_INPUT_FILE = false
+
+

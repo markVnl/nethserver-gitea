@@ -1,0 +1,5 @@
+TEMPLATE_PATH="certificate/crt"
+OUTPUT_FILENAME="/etc/pki/gitea/certs/gitea.crt"
+PERMS=0640
+UID="root"
+GID="gitea"

@@ -1,0 +1,11 @@
+[database]
+; NOTE this gitea package is NOT build with internal sqlite3
+DB_TYPE = mysql
+HOST = 127.0.0.1:3306
+NAME = gitea
+USER = gitea
+PASSWD = '{$giteaMysqlPassword}'
+SSL_MODE = disable
+
+;ITERATE_BUFFER_SIZE = 50
+

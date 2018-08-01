@@ -1,0 +1,29 @@
+[repository]
+ROOT = /var/lib/gitea/gitea-repositories
+SCRIPT_TYPE = bash
+ANSI_CHARSET =
+FORCE_PRIVATE = false
+DEFAULT_PRIVATE = last
+MAX_CREATION_LIMIT = -1
+MIRROR_QUEUE_LENGTH = 1000
+PULL_REQUEST_QUEUE_LENGTH = 1000
+PREFERRED_LICENSES = Apache License 2.0,MIT License
+DISABLE_HTTP_GIT = false
+USE_COMPAT_SSH_URI = false
+
+[repository.editor]
+LINE_WRAP_EXTENSIONS = .txt,.md,.markdown,.mdown,.mkd,
+PREVIEWABLE_FILE_MODES = markdown
+
+[repository.local]
+LOCAL_COPY_PATH = tmp/local-repo
+LOCAL_WIKI_PATH = tmp/local-wiki
+
+[repository.upload]
+ENABLED = true
+TEMP_PATH = data/tmp/uploads
+ALLOWED_TYPES =
+FILE_MAX_SIZE = 3
+MAX_FILES = 5
+
+
