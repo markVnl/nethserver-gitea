@@ -1,7 +1,7 @@
 [server]
 PROTOCOL = http
-DOMAIN = {$giteaDomain}
-ROOT_URL = https://{$giteaDomain}/git
+DOMAIN = {$giteaFQDN}
+ROOT_URL = https://{$giteaFQDN}/git
 HTTP_ADDR = 0.0.0.0
 HTTP_PORT = 3000
 REDIRECT_OTHER_PORT = false
@@ -10,12 +10,9 @@ UNIX_SOCKET_PERMISSION = 666
 LOCAL_ROOT_URL = %(PROTOCOL)s://%(HTTP_ADDR)s:%(HTTP_PORT)s/
 DISABLE_SSH = false
 START_SSH_SERVER = false
-BUILTIN_SSH_SERVER_USER =
 SSH_DOMAIN = %(DOMAIN)s
 SSH_LISTEN_HOST =
 SSH_PORT = 22
-SSH_LISTEN_PORT = %(SSH_PORT)s
-SSH_ROOT_PATH =
 ; FIXME use default policy
 SSH_SERVER_CIPHERS = aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, arcfour256, arcfour128
 SSH_SERVER_KEY_EXCHANGES = diffie-hellman-group1-sha1, diffie-hellman-group14-sha1, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, curve25519-sha256@libssh.org
@@ -57,6 +54,9 @@ RSA = 2048
 DSA = 1024
 
 [cache]
+; FIXME Cache engine adapter, either memory, redis, or memcache.
+; To use redis or memcache, be sure to rebuild everything with build tags redis or memcache
+; go build -tags='redis'.
 ADAPTER = memory
 INTERVAL = 60
 HOST =
@@ -90,10 +90,11 @@ DEFAULT_KEEP_EMAIL_PRIVATE = false
 DEFAULT_ALLOW_CREATE_ORGANIZATION = true
 DEFAULT_ENABLE_TIMETRACKING = true
 DEFAULT_ALLOW_ONLY_CONTRIBUTORS_TO_TRACK_TIME = true
-NO_REPLY_ADDRESS = noreply.example.org
+NO_REPLY_ADDRESS = noreply.{$giteaDomain}
 
 [indexer]
 ISSUE_INDEXER_PATH = indexers/issues.bleve
+; FIXME Enables code search (uses a lot of disk space).
 REPO_INDEXER_ENABLED = false
 REPO_INDEXER_PATH = indexers/repos.bleve
 UPDATE_BUFFER_LEN = 20

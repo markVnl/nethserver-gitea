@@ -19,35 +19,62 @@
 # along with NethServer.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-use strict;
 use esmith::Build::CreateLinks qw(:all);
 
 # gitea certificate paths
 my @certificates = (qw(
-    /etc/pki/gitea/private/gitea.key
     /etc/pki/gitea/certs/gitea.crt
+    /etc/pki/gitea/private/gitea.key
 ));
 
-#
+# 
 # nethserver-gitea-update event
 #
-
-my $event = 'nethserver-gitea-update';
-
-event_actions($event, qw(
+event_actions('nethserver-gitea-update', qw(
     initialize-default-databases 00
-    nethserver-gitea-conf       30
+    nethserver-gitea-conf        30
 ));
 
-event_templates($event, qw(
+event_templates('nethserver-gitea-update', 
+    @certificates, qw(
     /etc/gitea/app.ini
     /etc/httpd/conf.d/zz_gitea.conf
     /etc/httpd/conf.d/default-virtualhost.inc
 ));
 
-event_services($event, 
-   'gitea' => 'restart',
-   'httpd-admin' => 'reload'
+event_services('nethserver-gitea-update', qw( 
+    gitea restart
+    httpd restart
+));
+
+#
+# certificate-update event
+#
+event_templates('certificate-update', 
+    @certificates
 );
 
+event_services('certificate-update', qw(
+    gitea restart
+));
 
+#
+# trusted-networks-modify event
+#
+event_templates('trusted-networks-modify', qw(
+    /etc/httpd/conf.d/zz_gitea.conf
+));
+
+event_services('trusted-networks-modify', qw( 
+    httpd reload
+));
+
+#
+# TODO tls-policy-save event
+#
+#event_templates('tls-policy-save', qw(
+#));
+#event_actions('tls-policy-save', qw(
+#));
+#event_services('tls-policy-save', qw(
+#));

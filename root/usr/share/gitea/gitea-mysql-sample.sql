@@ -1,7 +1,3 @@
--- MySQL dump 10.14  Distrib 5.5.56-MariaDB, for Linux (x86_64)
---
--- Host: localhost    Database: gitea
--- ------------------------------------------------------
 -- Server version	5.5.56-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -1148,5 +1144,3 @@ CREATE TABLE `webhook` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-08-01  9:55:36

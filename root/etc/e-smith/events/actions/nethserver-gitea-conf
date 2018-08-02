@@ -29,7 +29,7 @@ epoch=$(date +%s)
 VALUES ('1', '4', 'Nethserver', '1', '0', '{\"ServiceName\":\"password-auth\"}', '$epoch', '$epoch');"
 
 # temp app.ini with mysql credentials 
-cat > /etc/gitea/app.ini << EOF
+cat > /tmp/app.ini << EOF
 APP_NAME = Gitea: Git with a cup of tea
 RUN_USER = gitea
 RUN_MODE = prod
@@ -41,9 +41,6 @@ NAME                = gitea
 USER                = gitea
 PASSWD              = $password
 SSL_MODE            = disable
-PATH                = data/gitea.db
-SQLITE_TIMEOUT      = 500
-ITERATE_BUFFER_SIZE = 50
 
 [log]
 ROOT_PATH  = /var/lib/gitea/log
@@ -52,7 +49,11 @@ BUFFER_LEN = 10000
 LEVEL      = Trace
 EOF
 
+chown gitea:gitea /tmp/app.ini
+
 # add local admin
 pushd /var/lib/gitea
-su gitea -c "/bin/gitea/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /etc/gitea/app.ini"
+su gitea -c "/bin/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /tmp/app.ini"
 popd
+
+rm -rf /tmp/app.ini 

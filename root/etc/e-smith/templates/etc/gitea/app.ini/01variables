@@ -1,10 +1,13 @@
-{  
+{
     use NethServer::Password;
     
-    
-    $giteaDomain = $SystemName . "." . $DomainName  || 'localdomain';
+    $giteaDomain = $DomainName || 'localdomain';
+    $giteaFQDN = $SystemName . "." . $giteaDomain;
     $giteaKey = substr( (esmith::util::genRandomHash()), 0, 20 );
-    $giteaInternalToken = esmith::util::genRandomHash();
+    $giteaInternalToken = esmith::util::genRandomHash() . esmith::util::genRandomHash();
 
     $giteaMysqlPassword = NethServer::Password::store('gitea');
+
+    $OUT .= ";\n";
+    
 } 

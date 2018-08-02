@@ -1,19 +1,20 @@
-Summary: NethServer configuration for Gitea
-Name: nethserver-gitea
-Version: 0.0.1
-Release: 1%{?dist}
-License: GPL
-URL: %{url_prefix}/%{name} 
-Source0: %{name}-%{version}.tar.gz
-BuildArch: noarch
+Summary:    NethServer configuration for Gitea
+Name:       nethserver-gitea
+Version:    0.0.1
+Release:    1%{?dist}
+License:    GPL
+URL:        %{url_prefix}/%{name} 
+Source0:    %{name}-%{version}.tar.gz
+BuildArch:  noarch
 
-Requires: nethserver-mysql
-Requires: gitea
+Requires:   nethserver-httpd
+Requires:   nethserver-mysql
+Requires:   gitea
 
 BuildRequires: nethserver-devtools 
 
 %description
-NethServer configuration for Gitea
+NethServer configuration for Gitea, a selfhosted Git service
 
 %prep
 %setup
@@ -25,7 +26,6 @@ perl createlinks
 rm -rf %{buildroot}
 (cd root; find . -depth -print | cpio -dump %{buildroot})
 %{genfilelist} %{buildroot} > %{name}-%{version}-filelist
-echo "%doc COPYING" >> %{name}-%{version}-filelist
 
 
 %post
@@ -34,7 +34,11 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
+%doc COPYING
 %dir %{_nseventsdir}/%{name}-update
 
 
 %changelog
+%changelog
+* Thu Aug 02 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.1-1
+- First Build

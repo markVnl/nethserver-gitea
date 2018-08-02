@@ -26,17 +26,17 @@ SCHEDULE = @every 24h
 UPDATE_EXISTING = true
 
 [log]
-; FIXME I belong in /var/log/gitea
-ROOT_PATH = /var/lib/gitea/log
+ROOT_PATH = /var/log/gitea/
 MODE = console
 BUFFER_LEN = 10000
-LEVEL = Trace
+; FIXME be less verbose: General log level. [Trace, Debug, Info, Warn, Error, Critical]
+LEVEL = Debug
 
 [log.console]
-LEVEL =
+LEVEL = Debug
 
 [log.file]
-LEVEL =
+LEVEL = Debug
 LOG_ROTATE = true
 MAX_LINES = 1000000
 MAX_SIZE_SHIFT = 28
@@ -44,14 +44,14 @@ DAILY_ROTATE = true
 MAX_DAYS = 7
 
 [log.conn]
-LEVEL =
+LEVEL = Debug
 RECONNECT_ON_MSG = false
 RECONNECT = false
 PROTOCOL = tcp
 ADDR =
 
 [log.smtp]
-LEVEL =
+LEVEL = Debug
 SUBJECT = Diagnostic message from server
 HOST =
 USER =
@@ -59,7 +59,7 @@ PASSWD =
 RECEIVERS =
 
 [log.database]
-LEVEL =
+LEVEL = Debug
 DRIVER =
 CONN =
 

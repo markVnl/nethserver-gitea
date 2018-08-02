@@ -1,22 +1,10 @@
 ;
 ;TODO
 ;
+
 [mailer]
 ENABLED = false
-SEND_BUFFER_LEN = 100
-SUBJECT = %(APP_NAME)s
-HOST =
-DISABLE_HELO =
-HELO_HOSTNAME =
-SKIP_VERIFY =
-USE_CERTIFICATE = false
-CERT_FILE = custom/mailer/cert.pem
-KEY_FILE = custom/mailer/key.pem
-FROM =
-USER =
-PASSWD =
-SEND_AS_PLAIN_TEXT = false
-USE_SENDMAIL = false
-SENDMAIL_PATH = sendmail
+FROM = gitea@{$giteaDomain}
+USE_SENDMAIL = true
+SENDMAIL_PATH = /usr/sbin/sendmail
 SENDMAIL_ARGS =
-
