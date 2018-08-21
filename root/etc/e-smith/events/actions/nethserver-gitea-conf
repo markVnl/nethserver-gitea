@@ -13,7 +13,7 @@ fi
 password=`perl -e "use NethServer::Password; print NethServer::Password::store('gitea');"`
 
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
-"CREATE DATABASE IF NOT EXISTS gitea DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+"CREATE DATABASE IF NOT EXISTS gitea;"
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
 "CREATE USER gitea@localhost IDENTIFIED BY '$password';" 
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
@@ -53,7 +53,7 @@ chown gitea:gitea /tmp/app.ini
 
 # add local admin
 pushd /var/lib/nethserver/gitea
-su gitea -c "/usr/bin/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /tmp/app.ini"
+su gitea -c "GITEA_WORK_DIR='/var/lib/nethserver/gitea" /usr/bin/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /tmp/app.ini"
 popd
 
 rm -rf /tmp/app.ini 
