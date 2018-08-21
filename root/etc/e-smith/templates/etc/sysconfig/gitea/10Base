@@ -1,0 +1,3 @@
+USER=gitea
+HOME=/var/lib/nethserver/gitea
+GITEA_WORK_DIR=/var/lib/nethserver/gitea
