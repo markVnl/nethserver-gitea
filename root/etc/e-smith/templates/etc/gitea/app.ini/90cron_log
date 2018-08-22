@@ -27,16 +27,16 @@ UPDATE_EXISTING = true
 
 [log]
 ROOT_PATH = /var/log/gitea/
-MODE = console
+MODE = file
 BUFFER_LEN = 10000
-; FIXME be less verbose: General log level. [Trace, Debug, Info, Warn, Error, Critical]
-LEVEL = Debug
+; General log level. [Trace, Debug, Info, Warn, Error, Critical]
+LEVEL = Warn
 
 [log.console]
-LEVEL = Debug
+LEVEL = Warn
 
 [log.file]
-LEVEL = Debug
+LEVEL = Warn
 LOG_ROTATE = true
 MAX_LINES = 1000000
 MAX_SIZE_SHIFT = 28
@@ -44,14 +44,14 @@ DAILY_ROTATE = true
 MAX_DAYS = 7
 
 [log.conn]
-LEVEL = Debug
+LEVEL = Warn
 RECONNECT_ON_MSG = false
 RECONNECT = false
 PROTOCOL = tcp
 ADDR =
 
 [log.smtp]
-LEVEL = Debug
+LEVEL = Warn
 SUBJECT = Diagnostic message from server
 HOST =
 USER =
@@ -59,7 +59,7 @@ PASSWD =
 RECEIVERS =
 
 [log.database]
-LEVEL = Debug
+LEVEL = Warn
 DRIVER =
 CONN =
 
