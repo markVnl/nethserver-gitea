@@ -6,6 +6,5 @@ NAME = gitea
 USER = gitea
 PASSWD = '{$giteaMysqlPassword}'
 SSL_MODE = disable
-
 ;ITERATE_BUFFER_SIZE = 50
 

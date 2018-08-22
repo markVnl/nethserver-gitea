@@ -1,10 +1,7 @@
-;
-;TODO
-;
-
 [mailer]
-ENABLED = false
+ENABLED = true
 FROM = gitea@{$giteaDomain}
 USE_SENDMAIL = true
 SENDMAIL_PATH = /usr/sbin/sendmail
 SENDMAIL_ARGS =
+
