@@ -1,7 +1,7 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
-Version:    0.0.1
-Release:    2%{?dist}
+Version:    0.0.2
+Release:    1%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
 Source0:    %{name}-%{version}.tar.gz
@@ -41,6 +41,8 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %changelog
-%changelog
+* Wed Aug 22 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.2-1
+- Implement backup; NOTE NO update path from 0.0.1-1
+  * home- work- and repository-directory moved to var/lib/nethserver/gitea
 * Thu Aug 02 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.1-1
 - First Build
