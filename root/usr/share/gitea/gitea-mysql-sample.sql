@@ -1,4 +1,4 @@
--- Server version	5.5.56-MariaDB
+-- Server version	5.5.60-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -77,7 +77,7 @@ CREATE TABLE `action` (
   KEY `IDX_action_repo_id` (`repo_id`),
   KEY `IDX_action_comment_id` (`comment_id`),
   KEY `IDX_action_is_deleted` (`is_deleted`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,10 +96,11 @@ CREATE TABLE `attachment` (
   `name` varchar(255) DEFAULT NULL,
   `download_count` bigint(20) DEFAULT '0',
   `created_unix` bigint(20) DEFAULT NULL,
+  `size` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQE_attachment_uuid` (`uuid`),
-  KEY `IDX_attachment_issue_id` (`issue_id`),
-  KEY `IDX_attachment_release_id` (`release_id`)
+  KEY `IDX_attachment_release_id` (`release_id`),
+  KEY `IDX_attachment_issue_id` (`issue_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -147,12 +148,13 @@ CREATE TABLE `comment` (
   `created_unix` bigint(20) DEFAULT NULL,
   `updated_unix` bigint(20) DEFAULT NULL,
   `commit_sha` varchar(40) DEFAULT NULL,
+  `removed_assignee` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_comment_poster_id` (`poster_id`),
   KEY `IDX_comment_issue_id` (`issue_id`),
   KEY `IDX_comment_created_unix` (`created_unix`),
   KEY `IDX_comment_updated_unix` (`updated_unix`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +278,7 @@ CREATE TABLE `follow` (
   `follow_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQE_follow_follow` (`user_id`,`follow_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +352,6 @@ CREATE TABLE `issue` (
   `content` text,
   `milestone_id` bigint(20) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
-  `assignee_id` bigint(20) DEFAULT NULL,
   `is_closed` tinyint(1) DEFAULT NULL,
   `is_pull` tinyint(1) DEFAULT NULL,
   `num_comments` int(11) DEFAULT NULL,
@@ -366,12 +367,28 @@ CREATE TABLE `issue` (
   KEY `IDX_issue_repo_id` (`repo_id`),
   KEY `IDX_issue_poster_id` (`poster_id`),
   KEY `IDX_issue_milestone_id` (`milestone_id`),
-  KEY `IDX_issue_assignee_id` (`assignee_id`),
   KEY `IDX_issue_is_pull` (`is_pull`),
   KEY `IDX_issue_deadline_unix` (`deadline_unix`),
   KEY `IDX_issue_is_closed` (`is_closed`),
   KEY `IDX_issue_created_unix` (`created_unix`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `issue_assignees`
+--
+
+DROP TABLE IF EXISTS `issue_assignees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issue_assignees` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `assignee_id` bigint(20) DEFAULT NULL,
+  `issue_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_issue_assignees_assignee_id` (`assignee_id`),
+  KEY `IDX_issue_assignees_issue_id` (`issue_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,11 +419,10 @@ CREATE TABLE `issue_user` (
   `uid` bigint(20) DEFAULT NULL,
   `issue_id` bigint(20) DEFAULT NULL,
   `is_read` tinyint(1) DEFAULT NULL,
-  `is_assigned` tinyint(1) DEFAULT NULL,
   `is_mentioned` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_issue_user_uid` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -442,6 +458,7 @@ CREATE TABLE `label` (
   `color` varchar(7) DEFAULT NULL,
   `num_issues` int(11) DEFAULT NULL,
   `num_closed_issues` int(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_label_repo_id` (`repo_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -600,7 +617,25 @@ CREATE TABLE `notification` (
   KEY `IDX_notification_repo_id` (`repo_id`),
   KEY `IDX_notification_source` (`source`),
   KEY `IDX_notification_issue_id` (`issue_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oauth2_session`
+--
+
+DROP TABLE IF EXISTS `oauth2_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth2_session` (
+  `id` varchar(100) NOT NULL,
+  `data` text,
+  `created_unix` bigint(20) DEFAULT NULL,
+  `updated_unix` bigint(20) DEFAULT NULL,
+  `expires_unix` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_oauth2_session_expires_unix` (`expires_unix`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -640,6 +675,9 @@ CREATE TABLE `protected_branch` (
   `whitelist_team_i_ds` text,
   `created_unix` bigint(20) DEFAULT NULL,
   `updated_unix` bigint(20) DEFAULT NULL,
+  `enable_merge_whitelist` tinyint(1) NOT NULL DEFAULT '0',
+  `merge_whitelist_user_i_ds` text,
+  `merge_whitelist_team_i_ds` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQE_protected_branch_s` (`repo_id`,`branch_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -662,6 +700,7 @@ CREATE TABLE `public_key` (
   `type` int(11) NOT NULL DEFAULT '1',
   `created_unix` bigint(20) DEFAULT NULL,
   `updated_unix` bigint(20) DEFAULT NULL,
+  `login_source_id` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `IDX_public_key_owner_id` (`owner_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -697,7 +736,7 @@ CREATE TABLE `pull_request` (
   KEY `IDX_pull_request_issue_id` (`issue_id`),
   KEY `IDX_pull_request_head_repo_id` (`head_repo_id`),
   KEY `IDX_pull_request_base_repo_id` (`base_repo_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -790,6 +829,20 @@ CREATE TABLE `repo_redirect` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `repo_topic`
+--
+
+DROP TABLE IF EXISTS `repo_topic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `repo_topic` (
+  `repo_id` bigint(20) DEFAULT NULL,
+  `topic_id` bigint(20) DEFAULT NULL,
+  UNIQUE KEY `UQE_repo_topic_s` (`repo_id`,`topic_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `repo_unit`
 --
 
@@ -805,7 +858,7 @@ CREATE TABLE `repo_unit` (
   PRIMARY KEY (`id`),
   KEY `IDX_repo_unit_s` (`repo_id`,`type`),
   KEY `IDX_repo_unit_created_unix` (`created_unix`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -840,18 +893,20 @@ CREATE TABLE `repository` (
   `size` bigint(20) NOT NULL DEFAULT '0',
   `created_unix` bigint(20) DEFAULT NULL,
   `updated_unix` bigint(20) DEFAULT NULL,
+  `is_fsck_enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `topics` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQE_repository_s` (`owner_id`,`lower_name`),
-  KEY `IDX_repository_name` (`name`),
-  KEY `IDX_repository_is_private` (`is_private`),
-  KEY `IDX_repository_is_bare` (`is_bare`),
-  KEY `IDX_repository_created_unix` (`created_unix`),
-  KEY `IDX_repository_updated_unix` (`updated_unix`),
   KEY `IDX_repository_lower_name` (`lower_name`),
-  KEY `IDX_repository_is_mirror` (`is_mirror`),
+  KEY `IDX_repository_fork_id` (`fork_id`),
+  KEY `IDX_repository_is_bare` (`is_bare`),
   KEY `IDX_repository_is_fork` (`is_fork`),
-  KEY `IDX_repository_fork_id` (`fork_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  KEY `IDX_repository_created_unix` (`created_unix`),
+  KEY `IDX_repository_name` (`name`),
+  KEY `IDX_repository_updated_unix` (`updated_unix`),
+  KEY `IDX_repository_is_private` (`is_private`),
+  KEY `IDX_repository_is_mirror` (`is_mirror`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -904,7 +959,6 @@ CREATE TABLE `team` (
   `authorize` int(11) DEFAULT NULL,
   `num_repos` int(11) DEFAULT NULL,
   `num_members` int(11) DEFAULT NULL,
-  `unit_types` text,
   PRIMARY KEY (`id`),
   KEY `IDX_team_org_id` (`org_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -929,6 +983,24 @@ CREATE TABLE `team_repo` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `team_unit`
+--
+
+DROP TABLE IF EXISTS `team_unit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `team_unit` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `org_id` bigint(20) DEFAULT NULL,
+  `team_id` bigint(20) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UQE_team_unit_s` (`team_id`,`type`),
+  KEY `IDX_team_unit_org_id` (`org_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `team_user`
 --
 
@@ -944,6 +1016,26 @@ CREATE TABLE `team_user` (
   UNIQUE KEY `UQE_team_user_s` (`team_id`,`uid`),
   KEY `IDX_team_user_org_id` (`org_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `topic`
+--
+
+DROP TABLE IF EXISTS `topic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `topic` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `repo_count` int(11) DEFAULT NULL,
+  `created_unix` bigint(20) DEFAULT NULL,
+  `updated_unix` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UQE_topic_name` (`name`),
+  KEY `IDX_topic_created_unix` (`created_unix`),
+  KEY `IDX_topic_updated_unix` (`updated_unix`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -979,11 +1071,56 @@ CREATE TABLE `two_factor` (
   `scratch_token` varchar(255) DEFAULT NULL,
   `created_unix` bigint(20) DEFAULT NULL,
   `updated_unix` bigint(20) DEFAULT NULL,
+  `last_used_passcode` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQE_two_factor_uid` (`uid`),
-  KEY `IDX_two_factor_created_unix` (`created_unix`),
-  KEY `IDX_two_factor_updated_unix` (`updated_unix`)
+  KEY `IDX_two_factor_updated_unix` (`updated_unix`),
+  KEY `IDX_two_factor_created_unix` (`created_unix`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `u2_f_registration`
+--
+
+DROP TABLE IF EXISTS `u2_f_registration`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `u2_f_registration` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `raw` blob,
+  `counter` int(11) DEFAULT NULL,
+  `created_unix` bigint(20) DEFAULT NULL,
+  `updated_unix` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_u2_f_registration_created_unix` (`created_unix`),
+  KEY `IDX_u2_f_registration_updated_unix` (`updated_unix`),
+  KEY `IDX_u2_f_registration_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `u2f_registration`
+--
+
+DROP TABLE IF EXISTS `u2f_registration`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `u2f_registration` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `raw` blob,
+  `counter` int(11) DEFAULT NULL,
+  `created_unix` bigint(20) DEFAULT NULL,
+  `updated_unix` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_u2f_registration_user_id` (`user_id`),
+  KEY `IDX_u2f_registration_created_unix` (`created_unix`),
+  KEY `IDX_u2f_registration_updated_unix` (`updated_unix`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1047,6 +1184,7 @@ CREATE TABLE `user` (
   `num_teams` int(11) DEFAULT NULL,
   `num_members` int(11) DEFAULT NULL,
   `diff_view_style` varchar(255) NOT NULL DEFAULT '',
+  `language` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQE_user_lower_name` (`lower_name`),
   UNIQUE KEY `UQE_user_name` (`name`),
@@ -1054,7 +1192,7 @@ CREATE TABLE `user` (
   KEY `IDX_user_is_active` (`is_active`),
   KEY `IDX_user_created_unix` (`created_unix`),
   KEY `IDX_user_updated_unix` (`updated_unix`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1096,7 +1234,7 @@ CREATE TABLE `version` (
 
 LOCK TABLES `version` WRITE;
 /*!40000 ALTER TABLE `version` DISABLE KEYS */;
-INSERT INTO `version` VALUES (1,58);
+INSERT INTO `version` VALUES (1,70);
 /*!40000 ALTER TABLE `version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1113,7 +1251,7 @@ CREATE TABLE `watch` (
   `repo_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQE_watch_watch` (`user_id`,`repo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1155,3 +1293,4 @@ CREATE TABLE `webhook` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+

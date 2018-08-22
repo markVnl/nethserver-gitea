@@ -1,6 +1,6 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
-Version:    0.0.2
+Version:    0.0.3
 Release:    1%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
@@ -9,7 +9,7 @@ BuildArch:  noarch
 
 Requires:   nethserver-httpd
 Requires:   nethserver-mysql
-Requires:   gitea
+Requires:   gitea >= 1.5.0
 
 BuildRequires: nethserver-devtools 
 
@@ -17,7 +17,7 @@ BuildRequires: nethserver-devtools
 NethServer configuration for Gitea, a selfhosted Git service
 
 %prep
-%setup
+%setup -q
 
 %build
 perl createlinks
@@ -41,8 +41,16 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %changelog
+* Wed Aug 22 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.3-1
+- bump to Gitea version 1.5.0
+- correction of database character set for future update path;
+  note NOW NO update path from 0.0.2-1
+- enable basic mailer
+- tweaks for logging
+
 * Wed Aug 22 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.2-1
-- Implement backup; NOTE NO update path from 0.0.1-1
-  * home- work- and repository-directory moved to var/lib/nethserver/gitea
+- implement backup; note NO update path from 0.0.1-1 :
+  moved home- work- and repository-directory to var/lib/nethserver/gitea
+
 * Thu Aug 02 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.1-1
 - First Build
