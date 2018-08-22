@@ -1,7 +1,7 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
 Version:    0.0.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
 Source0:    %{name}-%{version}.tar.gz
@@ -26,6 +26,7 @@ perl createlinks
 rm -rf %{buildroot}
 (cd root; find . -depth -print | cpio -dump %{buildroot})
 %{genfilelist} %{buildroot} > %{name}-%{version}-filelist
+mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %post
@@ -36,6 +37,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc COPYING
 %dir %{_nseventsdir}/%{name}-update
+%attr(0755,gitea,gitea) %dir %{_sharedstatedir}/nethserver/gitea
 
 
 %changelog

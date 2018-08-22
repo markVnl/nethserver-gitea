@@ -52,8 +52,8 @@ EOF
 chown gitea:gitea /tmp/app.ini
 
 # add local admin
-pushd /var/lib/gitea
-su gitea -c "/bin/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /tmp/app.ini"
+pushd /var/lib/nethserver/gitea
+su gitea -c "/usr/bin/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /tmp/app.ini"
 popd
 
 rm -rf /tmp/app.ini 

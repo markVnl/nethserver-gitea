@@ -1,5 +1,5 @@
 [repository]
-ROOT = /var/lib/gitea/gitea-repositories
+ROOT = /var/lib/nethserver/gitea/gitea-repositories
 SCRIPT_TYPE = bash
 ANSI_CHARSET =
 FORCE_PRIVATE = false

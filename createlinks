@@ -40,6 +40,7 @@ event_templates('nethserver-gitea-update',
     /etc/gitea/app.ini
     /etc/httpd/conf.d/zz_gitea.conf
     /etc/httpd/conf.d/default-virtualhost.inc
+    /etc/sysconfig/gitea
 ));
 
 event_services('nethserver-gitea-update', qw( 
@@ -78,3 +79,25 @@ event_services('trusted-networks-modify', qw(
 #));
 #event_services('tls-policy-save', qw(
 #));
+
+#
+# Backup Data
+#
+#event_templates(pre-backup-data'', qw(
+#));
+#event_actions('pre-backup-data'', qw(
+#));
+#event_services('pre-backup-data'', qw(
+#));
+
+#
+# Restore Data
+#
+#event_templates('post-restore-data', qw(
+#));
+#event_actions('post-restore-data', qw(
+#));
+event_services('post-restore-data', qw(
+    gitea restart
+));
+
