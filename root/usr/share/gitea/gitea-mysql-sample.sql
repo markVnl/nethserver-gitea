@@ -1090,6 +1090,17 @@ CREATE TABLE `version` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- write data for table `version`
+-- version of this schema
+--
+
+LOCK TABLES `version` WRITE;
+/*!40000 ALTER TABLE `version` DISABLE KEYS */;
+INSERT INTO `version` VALUES (1,58);
+/*!40000 ALTER TABLE `version` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `watch`
 --
 
