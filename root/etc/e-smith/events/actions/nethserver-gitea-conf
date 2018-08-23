@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# check home directory of gitea
+if [[ ! $curHomeDir = "/var/lib/nethserver/gitea" ]]; then
+   systemctl is-active --quiet gitea.service > /dev/null
+   if [ $? -ne 0 ]; then
+      # it is save to change gitea's home directory
+      usermod -d /var/lib/nethserver/gitea gitea > /dev/null 2>&1
+   else
+     # this is strange: this seems to be on a fresh install and gitea is running ??
+     # sorry we need to stop gitea to change it's home directory;
+     # we trust the nethserver-gitea-update event to start gitea up agian
+     systemctl stop gitea.service
+     usermod -d /var/lib/nethserver/gitea gitea > /dev/null 2>&1
+   fi
+fi
+
 #check if database exists
 dbtest=0
 mysqlshow "gitea" > /dev/null 2>&1 && dbtest=1
