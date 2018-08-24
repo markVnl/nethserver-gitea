@@ -3,7 +3,7 @@ ENABLED = true
 RUN_AT_START = false
 
 [cron.update_mirrors]
-SCHEDULE = @every 10m
+SCHEDULE = @every {$giteaMirrorInterval}
 
 [cron.repo_health_check]
 SCHEDULE = @every 24h
