@@ -1,7 +1,7 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
 Version:    0.0.4
-Release:    1%{?dist}
+Release:    2%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
 Source0:    %{name}-%{version}.tar.gz
@@ -41,6 +41,9 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %changelog
+* Sat Aug 25 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.4-2
+- Ease running time gitea for populating db with tables
+
 * Thu Aug 23 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.4-1
 - fix ssh: usermod 'home directory of gitea run user' tk @danb35
 - populate database with tables on the fly

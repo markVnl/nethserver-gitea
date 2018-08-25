@@ -44,12 +44,13 @@ password=`perl -e "use NethServer::Password; print NethServer::Password::store('
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
 "GRANT ALL PRIVILEGES ON gitea .* TO gitea@localhost;"
 
-# populate database with tables on the fly by running gitea for 2s
+# FIXME is 20s a save optimum ?
+# populate database with tables on the fly by running gitea for 20s
 # and add a local admin user
 expand-template /etc/gitea/app.ini
 
 pushd /var/lib/nethserver/gitea
-timeout 2s su gitea -c \
+timeout 20s su gitea -c \
 "GITEA_WORK_DIR='/var/lib/nethserver/gitea' /usr/bin/gitea web --config /etc/gitea/app.ini"
 su gitea -c \
 "GITEA_WORK_DIR='/var/lib/nethserver/gitea' /usr/bin/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /etc/gitea/app.ini"
