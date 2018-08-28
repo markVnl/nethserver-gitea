@@ -1,6 +1,8 @@
 {
     use NethServer::Password;
+    use esmith::ConfigDB;
     
+
     $giteaDomain = $DomainName || 'localdomain';
     $giteaFQDN = $SystemName . "." . $giteaDomain;
     $giteaKey = substr( (esmith::util::genRandomHash()), 0, 20 );
@@ -8,6 +10,16 @@
 
     $giteaMysqlPassword = NethServer::Password::store('gitea');
 
-    $OUT .= ";\n";
+    my $Confdb = esmith::ConfigDB->open;
+    my $sshd = $Confdb->get('sshd') or die "No sshd db entry found\n";    
+    my $gitea = $Confdb->get('gitea') or die "No gitea db entry found\n";
     
+    $giteaSshdPort = $sshd->prop('TCPPort') || '22';
+    $giteaPort = $gitea->prop('TCPPort') || '3000';
+    $giteaDisableRegistration = $gitea->prop('DisableRegistration') || 'true';
+    $giteaEnableNotifyMail = $gitea->prop('EnableNotifyMail') || 'true';
+    $giteaMailerEnabled = $gitea->prop('MailerEnabled') || 'true';
+    $giteaMirrorInterval = $gitea->prop('MirrorInterval') || '10m';
+
+    $OUT .= ";\n";
 } 

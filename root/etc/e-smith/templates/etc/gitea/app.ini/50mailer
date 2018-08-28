@@ -1,5 +1,5 @@
 [mailer]
-ENABLED = true
+ENABLED = {$giteaMailerEnabled}
 FROM = gitea@{$giteaDomain}
 USE_SENDMAIL = true
 SENDMAIL_PATH = /usr/sbin/sendmail
