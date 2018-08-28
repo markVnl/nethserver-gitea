@@ -26,32 +26,32 @@ if [ $dbtest -eq 1 ]; then
     exit 0
 fi
 
-systemctl is-active --quiet gitea.service > /dev/null
-if [ $? -eq 0 ]; then
-     # this is strange: this seems to be on a fresh install and gitea is running ??
-     # sorry we need to stop gitea;
-     # we trust the nethserver-gitea-update event to start gitea agian
-     systemctl stop gitea.service
-fi
-
 # create new database
 password=`perl -e "use NethServer::Password; print NethServer::Password::store('gitea');"`
 
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
 "CREATE DATABASE IF NOT EXISTS gitea;"
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
-"CREATE USER gitea@localhost IDENTIFIED BY '$password';"
-/usr/bin/mysql --defaults-file=/root/.my.cnf -e \
-"GRANT ALL PRIVILEGES ON gitea .* TO gitea@localhost;"
+"GRANT ALL PRIVILEGES ON gitea .* TO gitea@localhost IDENTIFIED BY '$password';"
 
-# FIXME is 20s a save optimum ?
-# populate database with tables on the fly by running gitea for 20s
+# populate database with tables on the fly by (re)starting gitea
 # and add a local admin user
+
+# gitea must use new created database
 expand-template /etc/gitea/app.ini
+systemctl restart gitea.service
+
+# wait until gitea is in a full running state to be sure the db is populated with tables
+for (( i=0; i<30; i++ ))
+do
+  curl http://localhost:3000 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    break
+  fi
+  sleep 1
+done
 
 pushd /var/lib/nethserver/gitea
-timeout 20s su gitea -c \
-"GITEA_WORK_DIR='/var/lib/nethserver/gitea' /usr/bin/gitea web --config /etc/gitea/app.ini"
 su gitea -c \
 "GITEA_WORK_DIR='/var/lib/nethserver/gitea' /usr/bin/gitea admin create-user --name gitea --password 'gitea' --email gitea@example.com --admin --config /etc/gitea/app.ini"
 popd
@@ -59,5 +59,9 @@ popd
 # add PAM login source
 epoch=$(date +%s)
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
-"INSERT INTO gitea . login_source (id, type, name, is_actived, is_sync_enabled, cfg, created_unix, updated_unix) 
+"INSERT INTO gitea . login_source (id, type, name, is_actived, is_sync_enabled, cfg, created_unix, updated_unix)
 VALUES ('1', '4', 'Nethserver', '1', '0', '{\"ServiceName\":\"password-auth\"}', '$epoch', '$epoch');"
+
+if [ $? -eq 0 ]; then
+ sytemd-cat -t "esmith::event" echo "Successfully created new authentication source Pam"
+fi
