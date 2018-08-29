@@ -39,12 +39,13 @@ password=`perl -e "use NethServer::Password; print NethServer::Password::store('
 
 # gitea must use new created database
 expand-template /etc/gitea/app.ini
+giteaport=$(config getprop gitea TCPPort)
 systemctl restart gitea.service
 
 # wait until gitea is in a full running state to be sure the db is populated with tables
 for (( i=0; i<30; i++ ))
 do
-  curl http://localhost:3000 > /dev/null 2>&1
+  curl http://localhost:$giteaport > /dev/null 2>&1
   if [ $? -eq 0 ]; then
     break
   fi
