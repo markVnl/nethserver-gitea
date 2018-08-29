@@ -1,7 +1,7 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
 Version:    0.0.5
-Release:    1%{?dist}
+Release:    3%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
 Source0:    %{name}-%{version}.tar.gz
@@ -41,6 +41,9 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %changelog
+* Wed Aug 29 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.6-1
+- Do not make assumptions for paths, during "disaster recovery" some are unknown
+
 * Tue Aug 28 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.5-1
 - wait until full running state for populating db with tables, drop fixed running time 
 - create and use db entry's
