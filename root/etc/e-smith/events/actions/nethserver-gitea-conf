@@ -4,7 +4,7 @@
 curhomedir=$(eval echo "~gitea")
 
 if [[ ! $curhomedir = "/var/lib/nethserver/gitea" ]]; then
-   systemctl is-active --quiet gitea.service > /dev/null
+   /usr/bin/systemctl is-active --quiet gitea.service > /dev/null
    if [ $? -ne 0 ]; then
       # it is save to change gitea's home directory
       usermod -d /var/lib/nethserver/gitea gitea > /dev/null 2>&1
@@ -12,14 +12,14 @@ if [[ ! $curhomedir = "/var/lib/nethserver/gitea" ]]; then
      # this is strange: this seems to be on a fresh install and gitea is running ??
      # sorry we need to stop gitea to change it's home directory;
      # we trust the nethserver-gitea-update event to start gitea agian
-     systemctl stop gitea.service
+     /usr/bin/systemctl stop gitea.service
      usermod -d /var/lib/nethserver/gitea gitea > /dev/null 2>&1
    fi
 fi
 
 #check if database exists
 dbtest=0
-mysqlshow "gitea" > /dev/null 2>&1 && dbtest=1
+/usr/bin/mysqlshow "gitea" > /dev/null 2>&1 && dbtest=1
 
 if [ $dbtest -eq 1 ]; then
    # database exists nothing to do
@@ -27,7 +27,7 @@ if [ $dbtest -eq 1 ]; then
 fi
 
 # create new database
-password=`perl -e "use NethServer::Password; print NethServer::Password::store('gitea');"`
+password=`/usr/bin/perl -e "use NethServer::Password; print NethServer::Password::store('gitea');"`
 
 /usr/bin/mysql --defaults-file=/root/.my.cnf -e \
 "CREATE DATABASE IF NOT EXISTS gitea;"
@@ -38,18 +38,18 @@ password=`perl -e "use NethServer::Password; print NethServer::Password::store('
 # and add a local admin user
 
 # gitea must use new created database
-expand-template /etc/gitea/app.ini
-giteaport=$(config getprop gitea TCPPort)
-systemctl restart gitea.service
+/sbin/e-smith/expand-template /etc/gitea/app.ini
+giteaport=$(/sbin/e-smith/config getprop gitea TCPPort)
+/usr/bin/systemctl restart gitea.service
 
 # wait until gitea is in a full running state to be sure the db is populated with tables
 for (( i=0; i<30; i++ ))
 do
-  curl http://localhost:$giteaport > /dev/null 2>&1
+  sleep 1  
+  /usr/bin/perlcurl http://localhost:$giteaport > /dev/null 2>&1
   if [ $? -eq 0 ]; then
     break
   fi
-  sleep 1
 done
 
 pushd /var/lib/nethserver/gitea
@@ -64,5 +64,5 @@ epoch=$(date +%s)
 VALUES ('1', '4', 'Nethserver', '1', '0', '{\"ServiceName\":\"password-auth\"}', '$epoch', '$epoch');"
 
 if [ $? -eq 0 ]; then
- systemd-cat -t "esmith::event" echo "Successfully created new authentication source Pam"
+  /usr/bin/systemd-cat -t "esmith::event" echo "Successfully created new authentication source Pam"
 fi
