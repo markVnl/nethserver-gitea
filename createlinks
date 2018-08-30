@@ -80,17 +80,6 @@ event_services('nethserver-openssh-save', qw(
     gitea restart
 ));
 
-
-#
-# TODO tls-policy-save event
-#
-#event_templates('tls-policy-save', qw(
-#));
-#event_actions('tls-policy-save', qw(
-#));
-#event_services('tls-policy-save', qw(
-#));
-
 #
 # Backup Data
 #

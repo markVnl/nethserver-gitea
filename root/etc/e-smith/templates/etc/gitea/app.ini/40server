@@ -15,10 +15,6 @@ SSH_LISTEN_HOST =
 SSH_PORT = {$giteaSshdPort}
 SSH_LISTEN_PORT = %(SSH_PORT)s
 SSH_ROOT_PATH = 
-; FIXME use default policy
-SSH_SERVER_CIPHERS = aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, arcfour256, arcfour128
-SSH_SERVER_KEY_EXCHANGES = diffie-hellman-group1-sha1, diffie-hellman-group14-sha1, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, curve25519-sha256@libssh.org
-SSH_SERVER_MACS = hmac-sha2-256-etm@openssh.com, hmac-sha2-256, hmac-sha1, hmac-sha1-96
 SSH_KEY_TEST_PATH =
 SSH_KEYGEN_PATH = ssh-keygen
 SSH_BACKUP_AUTHORIZED_KEYS = true
