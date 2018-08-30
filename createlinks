@@ -71,6 +71,17 @@ event_services('trusted-networks-modify', qw(
 ));
 
 #
+# nethserver-openssh-save event
+#
+event_templates('nethserver-openssh-save', qw(
+    /etc/gitea/app.ini
+));
+event_services('nethserver-openssh-save', qw( 
+    gitea restart
+));
+
+
+#
 # TODO tls-policy-save event
 #
 #event_templates('tls-policy-save', qw(
