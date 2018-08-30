@@ -3,7 +3,7 @@
 #
 
 <Proxy *>
-   Require { $giteaAccess eq "public" ? "ip 0.0.0.0/0.0.0.0" : "ip $localAccess" }
+   Require { $giteaAccess eq "public" ? "all granted" : "ip $localAccess" }
 </Proxy>
 
 ProxyPass /git http://localhost:{$giteaPort}

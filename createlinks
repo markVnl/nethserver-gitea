@@ -45,7 +45,7 @@ event_templates('nethserver-gitea-update',
 
 event_services('nethserver-gitea-update', qw( 
     gitea restart
-    httpd restart
+    httpd reload
 ));
 
 #
