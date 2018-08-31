@@ -5,7 +5,7 @@
     my $Confdb = esmith::ConfigDB->open;    
     my $gitea = $Confdb->get('gitea') or die "No gitea db entry found\n";
 
-    $giteaPort = $gitea->prop('TCPPort') || "3000";
+    $giteaPort = $gitea->prop('TCPPort') || "5321";
     $giteaAccess= $gitea->prop('HttpAccess') || "private";
 
     #---------------------------------------------------------------------
