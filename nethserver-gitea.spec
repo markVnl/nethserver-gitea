@@ -1,7 +1,7 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
-Version:    0.0.5
-Release:    3%{?dist}
+Version:    0.0.7
+Release:    1%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
 Source0:    %{name}-%{version}.tar.gz
@@ -41,6 +41,11 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %changelog
+* Fri Aug 31 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.7-1
+- do not restart webserver > reload httpd
+- app.ini reomve unneeded bits
+- hook into nethserver-openssh-save event for update on ssh port
+
 * Wed Aug 29 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.6-1
 - Do not make assumptions for paths, during "disaster recovery" some are unknown
 
