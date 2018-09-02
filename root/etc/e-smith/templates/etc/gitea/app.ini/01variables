@@ -2,9 +2,6 @@
     use NethServer::Password;
     use esmith::ConfigDB;
     
-
-    $giteaDomain = $DomainName || 'localdomain';
-    $giteaFQDN = $SystemName . "." . $giteaDomain;
     $giteaKey = substr( (esmith::util::genRandomHash()), 0, 20 );
     $giteaInternalToken = esmith::util::genRandomHash() . esmith::util::genRandomHash();
 
@@ -13,7 +10,19 @@
     my $Confdb = esmith::ConfigDB->open;
     my $sshd = $Confdb->get('sshd') or die "No sshd db entry found\n";    
     my $gitea = $Confdb->get('gitea') or die "No gitea db entry found\n";
-    
+
+    my $giteaVhost = $gitea->prop('VirtualHost') || ' ';
+    if ( $giteaVhost ne ' ' ) {
+        $giteaDomain = (split /\./ , $giteaVhost , 2)[1] or die "Wrong FQDN, set at least a 2nd level DN\n";
+        $giteaFQDN = $giteaVhost;
+        $giteaRootUrl = $giteaFQDN;
+    }
+    else {
+        $giteaDomain = $DomainName || 'localdomain';
+        $giteaFQDN = $SystemName . "." . $giteaDomain;
+        $giteaRootUrl = $giteaFQDN . "/git";
+    }
+       
     $giteaSshdPort = $sshd->prop('TCPPort') || '22';
     $giteaPort = $gitea->prop('TCPPort') || '3000';
     $giteaDisableRegistration = $gitea->prop('DisableRegistration') || 'true';

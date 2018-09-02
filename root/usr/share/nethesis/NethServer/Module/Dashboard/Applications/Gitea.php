@@ -35,10 +35,17 @@ class Gitea extends \Nethgui\Module\AbstractModule implements \NethServer\Module
 
     public function getInfo()
     {
+        $vhost = $this->getPlatform()->getDatabase('configuration')->getProp('gitea','VirtualHost');
+        if ($vhost) {
+            return array(
+               'url' => "https://".$vhost
+            );
+        } else {
         $host = explode(':',$_SERVER['HTTP_HOST']);
-        return array(
-            'url' => "https://".$host[0]."/git"
-        );
+            return array(
+               'url' => "https://".$host[0]."/git"
+            );
+        }
     }
 }
 

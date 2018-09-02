@@ -2,9 +2,54 @@
 # zz_gitea.conf
 #
 
-<Proxy *>
-   Require { $giteaAccess eq "public" ? "all granted" : "ip $localAccess" }
-</Proxy>
+{
+    #
+    # Set Vhost if configured
+    #
+    if ( $giteaVhost ne '' ){
+        $OUT .= <<EOF
 
-ProxyPass /git http://localhost:{$giteaPort}
-ProxyPassReverse /git http://localhost:{$giteaPort}
+<VirtualHost *:80>
+    IncludeOptional conf.d/default-virtualhost.inc
+</VirtualHost>
+
+
+<VirtualHost *:80>
+   ServerName $giteaVhost
+   RedirectMatch 301 ^(?!/.well-known/acme-challenge/).* https://$giteaVhost
+   RewriteEngine On
+   RewriteCond %\{HTTPS\} !=on
+   RewriteRule (.*) https://%\{SERVER_NAME\}\$1 [R,L]
+</VirtualHost>
+
+
+<VirtualHost *:443>
+   ServerName $giteaVhost
+   SSLEngine on
+   SSLCertificateFile "/etc/pki/gitea/certs/gitea.crt"
+   SSLCertificateKeyFile "/etc/pki/gitea/private/gitea.key"
+
+   <location "/" >
+       Require $giteaAccess
+       ProxyPass http://localhost:$giteaPort/
+       ProxyPassReverse http://localhost:$giteaPort/
+   </Location>
+</VirtualHost>
+
+EOF
+    }
+    #
+    # Set defaulthost/git if Vhost is not configured 
+    #
+    else{
+        $OUT .= <<EOF
+        
+<location "/git" >
+    Require $giteaAccess
+    ProxyPass http://localhost:$giteaPort
+    ProxyPassReverse http://localhost:$giteaPort
+</Location>
+
+EOF
+    }
+}
