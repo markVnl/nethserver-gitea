@@ -7,22 +7,8 @@
 
     $giteaPort = $gitea->prop('TCPPort') || "5321";
     $giteaAccess= $gitea->prop('HttpAccess') || "private";
-    
-    #
-    # Set Vhost if configured
-    #
     $giteaVhost = $gitea->prop('VirtualHost') || '';
-    if ( $giteaVhost ne '' ){
-        $giteaVhostConf = 1;
-        $giteaLocation = "/";
-        $giteaEndConfig = "</VirtualHost>";
-    }
-    else{
-        $giteaVhostConf = 0;
-        $giteaLocation = "/git";
-        $giteaEndConfig = "";
-    }
-
+ 
     #---------------------------------------------------------------------
     # Grab ValidFrom access list property of httpd-admin
     # SSL enabled virtual hosts should only allow access from IP's in

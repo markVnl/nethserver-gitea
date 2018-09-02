@@ -3,10 +3,10 @@
 #
 
 {
-    #
-    # Set Vhost if configured
-    #
     if ( $giteaVhost ne '' ){
+    
+    # Set Vhost if configured
+
         $OUT .= <<EOF
 
 <VirtualHost *:80>
@@ -38,10 +38,10 @@
 
 EOF
     }
-    #
-    # Set defaulthost/git if Vhost is not configured 
-    #
     else{
+
+    # Set defaulthost/git if Vhost is not configured
+
         $OUT .= <<EOF
         
 <location "/git" >

@@ -24,7 +24,7 @@
     }
        
     $giteaSshdPort = $sshd->prop('TCPPort') || '22';
-    $giteaPort = $gitea->prop('TCPPort') || '3000';
+    $giteaPort = $gitea->prop('TCPPort') || '5321';
     $giteaDisableRegistration = $gitea->prop('DisableRegistration') || 'true';
     $giteaEnableNotifyMail = $gitea->prop('EnableNotifyMail') || 'true';
     $giteaMailerEnabled = $gitea->prop('MailerEnabled') || 'true';
