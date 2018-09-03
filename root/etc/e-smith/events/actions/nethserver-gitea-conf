@@ -44,9 +44,9 @@ giteaport=$(/sbin/e-smith/config getprop gitea TCPPort || echo 5321)
 
 # FIXME https://community.nethserver.org/t/gitea-a-painless-self-hosted-git-service/10463/74
 # wait until gitea is in a full running state to be sure the db is populated with tables
-for (( i=0; i<60; i++ ))
+for (( i=0; i<30; i++ ))
 do
-  sleep 1  
+  sleep 2  
   /usr/bin/curl http://localhost:$giteaport > /dev/null 2>&1
   if [ $? -eq 0 ]; then
     break

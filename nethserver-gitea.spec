@@ -1,6 +1,6 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
-Version:    0.0.8
+Version:    0.0.9
 Release:    1%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
@@ -41,6 +41,9 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %changelog
+* Mon Sep 03 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.9-1
+- ease maximum runningtime for populating db with tables
+
 * Sun Sep 02 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.8-1
 - implement virtual host
 - bug fix app.ini: path to private gitea.key
