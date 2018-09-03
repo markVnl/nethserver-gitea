@@ -21,52 +21,63 @@ The internal admin user created at first install is:
 > Username: gitea  
 > Password: gitea  
 
-Change this password immediately in the web-ui (Settings > Account > Password)
+Change this password immediately in the web-ui at `Settings > Account > Password`  
 
-As an alternative it is possible to add administrator rights  to a (at least once logged-in) nethserver-user at Site Administration > User Account > edit . This user may remove the default admin account gitea.
+![alt text](doc/resources/gittea_pass_small.png)
 
-Note:
-> Gitea has an internal account for admin (among other things used for command line interaction) as an consequence it is impossible to login as admin
+As an alternative it is possible to add administrator rights  to a (at least once logged-in) nethserver-user, this user may remove the default admin account gitea.  
+`Site Administration > User Account > edit`  
+
+
+>Note:  
+> Gitea has an internal account for admin (among other things used for command line interaction);  
+> As a consequence it is impossible to login as admin
 
 Nethserver users must login in with the short username (omitting the @FQDN_Server!).  
 
-To receive notifications users have to set their e-mail address at Settings > Profile > Account > Email Address. This is the down side of the by default configured authentication source PAM.  
+To receive notifications users have to set their e-mail address at  
+`Settings > Profile > Account > Email Address`.  
 
+_(This is the downside of the by default configured authentication source PAM.)_  
 _TODO: describe advanced configuration with bind to  Ldap/AD_
 
 Configuration
 -------------
+ 
+ The current configuration can be reviewed with `config show gitea` , the default values after fresh installation are:
 
-(with default values)
+`DisableRegistration=true` -> if set to false non nethserver-user can register  
+`EnableNotifyMail=true` -> notification emails are send  
+`HttpAccess=public` -> if set to private web-ui and https clone are exclusively available on private networks  
+`MailerEnabled=true` -> set to false to disable mailer  
+`MirrorInterval=30m` -> interval to update a mirrored code repository  
+`TCPPort=5321` -> listening port of gittea  
+`VirtualHost=` -> if a FQDN is given gitea is available at FQDN, Note clone URLs change too https:/FQDN/user/project.git  
+`access=localhost` -> recommend to keep this:  proxy takes care of external connections  
+`status=enabled` -> enable / disable gitea service  
 
-`DisableRegistration=true` - if set to false non nethserver-user can register  
-`EnableNotifyMail=true` – notification emails are send  
-`HttpAccess=public` – if set to private web-ui and https clone are exclusively available on private networks  
-`MailerEnabled=true` – set to false to disable mailer  
-`MirrorInterval=30m` – interval to update a mirrored code repository  
-`TCPPort=5321` – listening port of gittea  
-`VirtualHost=` - if a FQDN is given gitea is available at FQDN, https url atlers to https:/FQDN/user/project.git  
-`access=localhost` - recommend to keep this:  proxy takes care of external connections  
-`status=enabled` – enable / disable gitea service  
+Example to change a configuration property:  
+To configure a VirtualHost  `config setprop gitea VirtualHost git.example.com`
 
-To be able to clone/push/pull over SSH from public networks SSH must be enabled on public (red) networks. 
+To be able to clone/push/pull over SSH from public networks SSH must be enabled on public (red) networks. If the ssh port is changed the clone URL is updated as well.  
 
 Known Limitations
 -----------------
 
-* Gittea does not have a configuration reload option (yet), to reload the configuration gitea needs to be restarted. This will end the session of logged in users.
+* Gittea does not have a configuration reload option (yet), the gitea-deamon needs restart to make changes in configuration effective. This will end the session of logged in users.
 This ocours if:  
-Nethserver-gitea is updated (`nethserver-gitea-update event`)  
-The server certificate is updated (`certificate-update event`)  
-The SSH port is changed (`nethserver-openssh-save event`)  
+  * Nethserver-gitea is updated (`nethserver-gitea-update event`)
+  * The server certificate is updated (`certificate-update event`)  
+  * The SSH port is changed (`nethserver-openssh-save event`)  
 * No large file support due to centos git version 1.8.x  
 * Impossible to login as admin  
 
-TODO FIXME
-----------
+______________________________________
 
-* Evaluate db setup method
+**TODO / FIXME**
+
+* Evaluate database setup method
 * Evaluate mailer setup
-* Redis cache support
+* Memcached or Redis cache support
 * Enhance this documentation
-* What ever comes up to the table
+* What-ever-comes up to the table
