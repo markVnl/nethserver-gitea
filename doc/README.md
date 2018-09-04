@@ -46,6 +46,7 @@ Configuration
  
  The current configuration can be reviewed with `config show gitea` , the default values after fresh installation are:
 
+`CacheHost = ` -> if a adequate host for redis is set it is used for cache instead of (default) memory  
 `DisableRegistration=true` -> if set to false non nethserver-user can register  
 `EnableNotifyMail=true` -> notification emails are send  
 `HttpAccess=public` -> if set to private web-ui and https clone are exclusively available on private networks  
@@ -60,6 +61,8 @@ Example to change a configuration property:
 To configure a VirtualHost  `config setprop gitea VirtualHost git.example.com`
 
 To be able to clone/push/pull over SSH from public networks SSH must be enabled on public (red) networks. If the ssh port is changed the clone URL is updated as well.  
+
+_TODO: describe advanced configuration for redis cache_
 
 Known Limitations
 -----------------
