@@ -22,7 +22,16 @@
         $giteaFQDN = $SystemName . "." . $giteaDomain;
         $giteaRootUrl = $giteaFQDN . "/git";
     }
-       
+
+    $giteaCacheHost = $gitea->prop('CacheHost') || ' ';
+    if ( $giteaCacheHost  ne ' ' ) {
+        $giteaCacheAdapter = 'redis';
+        }
+    else {
+        $giteaCacheAdapter = 'memory';
+    }
+
+
     $giteaSshdPort = $sshd->prop('TCPPort') || '22';
     $giteaPort = $gitea->prop('TCPPort') || '5321';
     $giteaDisableRegistration = $gitea->prop('DisableRegistration') || 'true';
