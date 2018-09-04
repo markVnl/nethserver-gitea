@@ -49,11 +49,12 @@ Configuration
 `CacheHost = ` -> if a adequate host for redis is set it is used for cache instead of (default) memory  
 `DisableRegistration=true` -> if set to false non nethserver-user can register  
 `EnableNotifyMail=true` -> notification emails are send  
+`EnableOpenID=false` -> if set to true users have the option to login with openID  
 `HttpAccess=public` -> if set to private web-ui and https clone are exclusively available on private networks  
 `MailerEnabled=true` -> set to false to disable mailer  
 `MirrorInterval=30m` -> interval to update a mirrored code repository  
 `TCPPort=5321` -> listening port of gittea  
-`VirtualHost=` -> if a FQDN is given gitea is available at FQDN, Note clone URLs change too https:/FQDN/user/project.git  
+`VirtualHost=` -> if a FQDN is given gitea is available at `https://FQDN/`. Note clone URLs change too `https:/FQDN/user/project.git`  
 `access=localhost` -> recommend to keep this:  proxy takes care of external connections  
 `status=enabled` -> enable / disable gitea service  
 
