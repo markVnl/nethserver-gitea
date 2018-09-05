@@ -1,6 +1,6 @@
 Summary:    NethServer configuration for Gitea
 Name:       nethserver-gitea
-Version:    0.0.9
+Version:    0.1.0
 Release:    1%{?dist}
 License:    GPL
 URL:        %{url_prefix}/%{name} 
@@ -41,6 +41,11 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 
 %changelog
+* Wed Sep 05 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.1.0-1
+- firts test-release
+- intial redis cache support tk @mrmarkus
+- add dp-prop OpenID, disabled by default
+
 * Mon Sep 03 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.0.9-1
 - ease maximum runningtime for populating db with tables
 
