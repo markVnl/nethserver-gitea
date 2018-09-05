@@ -53,12 +53,9 @@ RSA = 2048
 DSA = 1024
 
 [cache]
-; FIXME Cache engine adapter, either memory, redis, or memcache.
-; To use redis or memcache, be sure to rebuild everything with build tags redis or memcache
-; go build -tags='redis'.
-ADAPTER = memory
+ADAPTER = {$giteaCacheAdapter}
 INTERVAL = 60
-HOST =
+HOST = {$giteaCacheHost}
 ITEM_TTL = 16h
 
 [session]
@@ -71,7 +68,7 @@ GC_INTERVAL_TIME = 86400
 SESSION_LIFE_TIME = 86400
 
 [openid]
-ENABLE_OPENID_SIGNIN = true
+ENABLE_OPENID_SIGNIN = {$giteaEnableOpenID}
 WHITELISTED_URIS =
 BLACKLISTED_URIS =
 
