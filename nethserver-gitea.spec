@@ -42,7 +42,7 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 %changelog
 * Wed Sep 05 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.1.0-1
-- firts test-release
+- first test-release
 - intial redis cache support tk @mrmarkus
 - add dp-prop OpenID, disabled by default
 

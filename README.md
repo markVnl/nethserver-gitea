@@ -1,7 +1,12 @@
 Nethserver-gitea
 =====================================
 
-(WORK IN PROGRESS)
+**Alpha release for evaluation.**
+
+If you have comments or remarks happy to hear them from you on the [nethserver-community](https://community.nethserver.org/) or you can raise a issue here.  
+However it is considered good practice to discuss enhancements and features at the community before opening an issue.  
+
+enjoy !  
 
 Gitea a selfhosted code repository
 -------------------------------------
@@ -12,7 +17,9 @@ Being self-hosted it is ideal for projects in an early stage of development who 
 Installation
 ------------
 
-_At the time of writing the package and it’s dependency gitea are not available in package repositories._  
+The package and it’s dependency gitea is available in the nethforge-testing repository.
+
+`yum install --enablerepo=nethforge-testing nethserver-gitea`
 
  After installation the web-ui is available at `https://FQDN_Server/git` 
 
