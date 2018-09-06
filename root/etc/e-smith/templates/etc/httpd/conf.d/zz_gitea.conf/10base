@@ -26,8 +26,8 @@
 <VirtualHost *:443>
    ServerName $giteaVhost
    SSLEngine on
-   SSLCertificateFile "/etc/pki/gitea/certs/gitea.crt"
-   SSLCertificateKeyFile "/etc/pki/gitea/private/gitea.key"
+   SSLCertificateFile "/etc/pki/tls/certs/localhost.crt"
+   SSLCertificateKeyFile "/etc/pki/tls/private/localhost.key"
 
    <location "/" >
        Require $giteaAccess

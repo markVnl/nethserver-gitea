@@ -21,12 +21,6 @@
 
 use esmith::Build::CreateLinks qw(:all);
 
-# gitea certificate paths
-my @certificates = (qw(
-    /etc/pki/gitea/certs/gitea.crt
-    /etc/pki/gitea/private/gitea.key
-));
-
 # 
 # nethserver-gitea-update event
 #
@@ -46,17 +40,6 @@ event_templates('nethserver-gitea-update',
 event_services('nethserver-gitea-update', qw( 
     gitea restart
     httpd reload
-));
-
-#
-# certificate-update event
-#
-event_templates('certificate-update', 
-    @certificates
-);
-
-event_services('certificate-update', qw(
-    gitea restart
 ));
 
 #

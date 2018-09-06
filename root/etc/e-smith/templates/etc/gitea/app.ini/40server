@@ -2,7 +2,7 @@
 PROTOCOL = http
 DOMAIN = {$giteaFQDN}
 ROOT_URL = https://{$giteaRootUrl}
-HTTP_ADDR = 0.0.0.0
+HTTP_ADDR = 127.0.0.1
 HTTP_PORT = {$giteaPort}
 REDIRECT_OTHER_PORT = false
 PORT_TO_REDIRECT = 80
@@ -22,8 +22,6 @@ SSH_EXPOSE_ANONYMOUS = false
 MINIMUM_KEY_SIZE_CHECK = false
 OFFLINE_MODE = false
 DISABLE_ROUTER_LOG = false
-CERT_FILE = /etc/pki/gitea/certs/gitea.crt
-KEY_FILE = /etc/pki/gitea/private/gitea.key
 STATIC_ROOT_PATH =
 APP_DATA_PATH = data
 ENABLE_GZIP = false
