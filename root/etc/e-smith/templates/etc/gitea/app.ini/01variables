@@ -31,6 +31,7 @@
         $giteaCacheAdapter = 'memory';
     }
 
+    $giteaMailerFrom = $gitea->prop('MailerFrom') || ('gitea@'. $giteaDomain);
     $giteaSshdPort = $sshd->prop('TCPPort') || '22';
     $giteaPort = $gitea->prop('TCPPort') || '5321';
     $giteaDisableRegistration = $gitea->prop('DisableRegistration') || 'true';
