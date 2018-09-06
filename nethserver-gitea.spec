@@ -33,12 +33,16 @@ mkdir -p %{buildroot}%{_sharedstatedir}/nethserver/gitea
 
 %preun
 
+%postun
+if [ $1 == 0 ]; then
+  /usr/bin/rm -f /etc/httpd/conf.d/zz_gitea.conf > /dev/null 2>&1
+fi
+
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
 %doc COPYING
 %dir %{_nseventsdir}/%{name}-update
 %attr(0755,gitea,gitea) %dir %{_sharedstatedir}/nethserver/gitea
-
 
 %changelog
 * Wed Sep 05 2018 Mark Verlinde <mark.verlinde@gmail.com> 0.1.0-1
