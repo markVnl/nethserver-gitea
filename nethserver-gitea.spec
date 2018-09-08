@@ -10,6 +10,7 @@ BuildArch:  noarch
 Requires:   nethserver-httpd
 Requires:   nethserver-mysql
 Requires:   gitea >= 1.5.0
+Requires:   python-docutils
 
 BuildRequires: nethserver-devtools 
 

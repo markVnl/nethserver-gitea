@@ -25,6 +25,12 @@ ENABLE_HARD_LINE_BREAK = false
 CUSTOM_URL_SCHEMES =
 FILE_EXTENSIONS = .md,.markdown,.mdown,.mkd
 
+[markup.asciidoc]
+ENABLED = true
+FILE_EXTENSIONS = .rst,.rest,.restx,
+RENDER_COMMAND = "/usr/bin/rst2html --no-raw"
+IS_INPUT_FILE = false
+
 [picture]
 AVATAR_UPLOAD_PATH = data/avatars
 AVATAR_MAX_WIDTH = 4096
@@ -78,9 +84,4 @@ SHOW_FOOTER_TEMPLATE_LOAD_TIME = true
 [time]
 FORMAT =
 
-[markup.asciidoc]
-ENABLED = false
-FILE_EXTENSIONS = .adoc,.asciidoc
-RENDER_COMMAND = "asciidoc --out-file=- -"
-IS_INPUT_FILE = false
 
